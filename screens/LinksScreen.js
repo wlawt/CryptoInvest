@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
+import { ScrollView, StyleSheet, Text, View, Image, Alert } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import {
   Table,
@@ -11,7 +11,7 @@ import {
   Cell
 } from "react-native-table-component";
 
-import RNFetchBlob from "react-native-fetch-blob";
+import { Button, Content, Form, Item, Label, Input } from "native-base";
 
 import BTC from "../assets/images/Bitcoin.png";
 import ETH from "../assets/images/ETH.png";
@@ -22,7 +22,8 @@ class Data extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: null,
+      isFilled: false
     };
   }
   componentDidMount() {
@@ -72,54 +73,56 @@ export default class Trades extends React.Component {
     };
   }
 
-  array2CSV = value => {
-    // construct csvString
-    const headerString = "event,timestamp\n";
-    const rowString = value.map(d => `${d[0]},${d[1]}\n`).join("");
-    const csvString = `${headerString}${rowString}`;
-
-    // write the current list of answers to a local csv file
-    const pathToWrite = `${RNFetchBlob.fs.dirs.DownloadDir}/data.csv`;
-    console.log("pathToWrite", pathToWrite);
-    // pathToWrite /storage/emulated/0/Download/data.csv
-    RNFetchBlob.fs
-      .writeFile(pathToWrite, csvString, "utf8")
-      .then(() => {
-        console.log(`wrote file ${pathToWrite}`);
-        // wrote file /storage/emulated/0/Download/data.csv
-      })
-      .catch(error => console.error(error));
-  };
-
   render() {
     const state = this.state;
-    console.log(this.state.tableData);
-    this.array2CSV(this.state.tableData);
     return (
-      <View style={styles.container}>
-        <Table borderStyle={{ borderWidth: 1 }}>
-          <Row
-            data={state.tableHead}
-            flexArr={[1, 2, 1, 1]}
-            style={styles.head}
-            textStyle={styles.text}
-          />
-          <TableWrapper style={styles.wrapper}>
-            <Col
-              data={state.tableTitle}
-              style={styles.title}
-              heightArr={[40, 40]}
+      <ScrollView>
+        <View style={styles.container}>
+          <Table borderStyle={{ borderWidth: 1 }}>
+            <Row
+              data={state.tableHead}
+              flexArr={[1, 2, 1, 1]}
+              style={styles.head}
               textStyle={styles.text}
             />
-            <Rows
-              data={state.tableData}
-              flexArr={[2, 1, 1]}
-              style={styles.row}
-              textStyle={styles.text}
-            />
-          </TableWrapper>
-        </Table>
-      </View>
+            <TableWrapper style={styles.wrapper}>
+              <Col
+                data={state.tableTitle}
+                style={styles.title}
+                heightArr={[40, 40]}
+                textStyle={styles.text}
+              />
+              <Rows
+                data={state.tableData}
+                flexArr={[2, 1, 1]}
+                style={styles.row}
+                textStyle={styles.text}
+              />
+            </TableWrapper>
+          </Table>
+
+          <Content>
+            <Text h2>Get Portfolio Breakdown</Text>
+            <Form>
+              <Item floatingLabel>
+                <Label>Email</Label>
+                <Input />
+              </Item>
+
+              <Content>
+                <Button
+                  rounded
+                  success
+                  onPress={() => Alert.alert("Check email for CSV file")}
+                  style={styles.separate}
+                >
+                  <Text style={styles.textFormat}>Export To CSV</Text>
+                </Button>
+              </Content>
+            </Form>
+          </Content>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -130,7 +133,9 @@ const styles = StyleSheet.create({
   wrapper: { flexDirection: "row" },
   title: { flex: 1, backgroundColor: "#f6f8fa" },
   row: { height: 45 },
-  text: { textAlign: "center" }
+  text: { textAlign: "center" },
+  separate: { marginTop: 20 },
+  textFormat: { paddingLeft: 120 }
 });
 
 Trades.navigationOptions = {

@@ -1,12 +1,13 @@
 import React from 'react';
-import { ExpoConfigView } from '@expo/samples';
+import { View, TextInput } from 'react-native';
+
 
 export default function SettingsScreen() {
-  /**
-   * Go ahead and delete ExpoConfigView and replace it with your content;
-   * we just wanted to give you a quick view of your config.
-   */
-  return <ExpoConfigView />;
+  return (
+    <View>
+      <TextInput style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}>Hello</TextInput>
+    </View>
+  )
 }
 
 SettingsScreen.navigationOptions = {
