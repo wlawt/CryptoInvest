@@ -46,7 +46,7 @@ const LinksStack = createStackNavigator(
 );
 
 LinksStack.navigationOptions = {
-  tabBarLabel: "Links",
+  tabBarLabel: "Trades",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -65,7 +65,7 @@ const SettingsStack = createStackNavigator(
 );
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: "Settings",
+  tabBarLabel: "Deposits",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
