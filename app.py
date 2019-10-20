@@ -1,8 +1,16 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import sqlite3
 
 import os
 
+import urllib.request as urllib
+import base64
+import json
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition, ContentId)
+import csv
+
+import sendgrid_email_sender
 app = Flask(__name__)
 
 
@@ -19,14 +27,13 @@ def getBTCAddress():
             '''SELECT address FROM BTCAddresses WHERE user_id=:u_id AND active=:active_status''', {'u_id':1, 'active_status':1}
             )
     res = c.fetchone()
-    print(res)
     conn.close()
     if not res:
         address = generateBTCAddress()
     else:
-        address = res[0]
-    
-    return address
+        address = res
+    address = address[0]
+    return {"address":address}
 
 def generateBTCAddress():
     stuff = BAG.generate_btc_wallet()
@@ -63,6 +70,17 @@ def showAllAddresses():
     res = c.fetchall()
     conn.close
     return jsonify(res)
+
+@app.route("/sendEmail", methods=["POST"])
+def sendCSVViaEmail():
+    d = request.data
+    data = d.decode("utf-8")
+    idx1 = data.index(":")
+    idx2 = data.index("}")
+    email = data[idx1+1:idx2]
+    response = sendgrid_email_sender.send_email(email)
+    
+    return jsonify({"status":response})
 
 if __name__ == "__main__":
     if not os.path.exists('cab.db'):
