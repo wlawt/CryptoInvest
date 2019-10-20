@@ -1,12 +1,29 @@
 import React, { Component } from "react";
-import { ScrollView, StyleSheet, Text, View, Image } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Image,
+  Alert,
+  TouchableOpacity
+} from "react-native";
+
+import {
+  Container,
+  Content,
+  Card,
+  CardItem,
+  Text,
+  Body,
+  Header
+} from "native-base";
 
 import BTC from "../assets/images/Bitcoin.png";
 import ETH from "../assets/images/ETH.png";
 import LTC from "../assets/images/LTC.png";
 import XRP from "../assets/images/XRP.jpg";
 
-class Card extends React.Component {
+class Cards extends React.Component {
   render() {
     return (
       <View style={styles.rectangle}>
@@ -28,11 +45,96 @@ export default function HomeScreen() {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
       >
-        <Text style={styles.headerTitle}>Crypto Arbitrage</Text>
-        <Card image={BTC} text={"Bitcoin"}></Card>
-        <Card image={ETH} text={"Ethereum"}></Card>
-        <Card image={XRP} text={"Ripple"}></Card>
-        <Card image={LTC} text={"Litecoin"}></Card>
+        <Header style={styles.header}>
+          <Text style={styles.headerText}>Crypto Investments</Text>
+        </Header>
+
+        <Text style={styles.headerTitle}>
+          Wallet: <Text style={styles.money}>$25679.15</Text>
+        </Text>
+
+        <TouchableOpacity
+          style={styles.rectangle}
+          onPress={() => Alert.alert("Current Bitcoin Price is $10471.84 CAD")}
+        >
+          <Image source={BTC} style={styles.imageRectangle}></Image>
+          <Text style={styles.crypto}>Bitcoin</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.rectangle}
+          onPress={() =>
+            Alert.alert("Current Ethereum Price is $10471.84.10 CAD")
+          }
+        >
+          <Image source={ETH} style={styles.imageRectangle}></Image>
+          <Text style={styles.crypto}>Ethereum</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.rectangle}
+          onPress={() => Alert.alert("Current Ripple Price is $0.38 CAD")}
+        >
+          <Image source={XRP} style={styles.imageRectangle}></Image>
+          <Text style={styles.crypto}>Ripple</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.rectangle}
+          onPress={() => Alert.alert("Current Litecoin Price is $69.94 CAD")}
+        >
+          <Image source={LTC} style={styles.imageRectangle}></Image>
+          <Text style={styles.crypto}>Litecoin</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.headerTitle}>Twitter Feed</Text>
+
+        <Container>
+          <Content>
+            <Card>
+              <CardItem header bordered>
+                <Text style={styles.tweetText}>ReadBTC</Text>
+              </CardItem>
+              <CardItem bordered>
+                <Body>
+                  <Text>
+                    "Electroneum, the startup which enables users to “mine" its
+                    cryptocurrency on their smartphones, is launching new
+                    services in Turkey—the inflation-strapped country is
+                    currently number one in crypto adoption #cryptocurrencies"
+                  </Text>
+                </Body>
+              </CardItem>
+
+              <CardItem header bordered>
+                <Text style={styles.tweetText}>Wall Street Journal</Text>
+              </CardItem>
+              <CardItem bordered>
+                <Body>
+                  <Text>
+                    "Even though GM and the UAW have struck a deal, the strike
+                    is still rippling through the Midwest economy: "Everybody is
+                    taking a hit.""
+                  </Text>
+                </Body>
+              </CardItem>
+
+              <CardItem header bordered>
+                <Text style={styles.tweetText}>Christoffel Botha Jacobs</Text>
+              </CardItem>
+              <CardItem bordered>
+                <Body>
+                  <Text>
+                    "IBAYI MArketing: Bitcoin A Cut Above The Rest. When I do
+                    look at bitcoin it seemed that it had the future in mind and
+                    it's certainly a cut above the rest. Through it all, it got
+                    stronger and stronger."
+                  </Text>
+                </Body>
+              </CardItem>
+            </Card>
+          </Content>
+        </Container>
       </ScrollView>
     </View>
   );
@@ -49,7 +151,7 @@ const styles = StyleSheet.create({
   },
 
   contentContainer: {
-    paddingTop: 30
+    paddingTop: 20
   },
   headerTitle: {
     fontSize: 32,
@@ -61,7 +163,6 @@ const styles = StyleSheet.create({
   rectangle: {
     width: 120 * 2,
     height: 100,
-    backgroundColor: "#f7fffa",
     marginLeft: "17%",
     flexDirection: "row",
     marginBottom: "5%"
@@ -76,5 +177,41 @@ const styles = StyleSheet.create({
     marginLeft: "12%",
     marginTop: "13%",
     fontSize: 30
+  },
+  portfolio: {
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 40
+  },
+
+  money: {
+    color: "#218838",
+    marginBottom: 20,
+    paddingLeft: 85,
+    fontSize: 32
+  },
+
+  header: {
+    backgroundColor: "#1877F2",
+    height: 70
+  },
+
+  headerText: {
+    paddingTop: 20,
+    paddingRight: 100,
+    fontSize: 25,
+    color: "white",
+    fontWeight: "bold"
+  },
+
+  crypto: {
+    paddingLeft: 30,
+    paddingTop: 30,
+    fontSize: 25,
+    height: 100
+  },
+
+  tweetText: {
+    color: "#1877F2"
   }
 });
